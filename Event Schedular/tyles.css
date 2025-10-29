@@ -1,0 +1,227 @@
+/* --- Color Palette --- */
+/* Primary Background: #1f2937 (Dark Slate Gray) */
+/* Secondary Background: #374151 (Slightly Lighter Gray) */
+/* Accent Blue (Primary CTA): #3b82f6 (Bright Blue) */
+/* Accent Green (Success): #10b981 (Teal Green) */
+/* Accent Red (Danger): #ef4444 (Vibrant Red) */
+/* Text Color: #f3f4f6 (Off-White) */
+/* Heading Color: #e5e7eb (Light Gray) */
+
+
+/* General Reset and Font */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #1f2937; /* Primary Dark Background */
+    color: #f3f4f6; /* Off-White Text */
+}
+
+/* Header and Navigation */
+header {
+    background-color: #111827; /* Very Dark Header */
+    color: white;
+    padding: 15px 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+header h1 {
+    margin: 0;
+    font-size: 1.8em;
+    color: #e5e7eb;
+}
+
+nav {
+    margin-top: 10px;
+}
+
+nav a {
+    color: #9ca3af; /* Muted Link Color */
+    text-decoration: none;
+    padding: 8px 15px;
+    margin-right: 10px;
+    border-radius: 4px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+nav a:hover {
+    color: #f3f4f6;
+    background-color: #374151;
+}
+
+nav a.active {
+    color: white;
+    background-color: #3b82f6; /* Accent Blue for Active Tab */
+    font-weight: bold;
+}
+
+/* Main Layout */
+main {
+    max-width: 900px;
+    margin: 30px auto;
+    padding: 0 20px;
+    display: grid;
+    gap: 25px;
+    grid-template-columns: 1fr 1fr;
+}
+
+/* Card Styling */
+.card {
+    background-color: #374151; /* Secondary Dark Background */
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    border: 1px solid #4b5563;
+}
+
+.card h2 {
+    color: #f3f4f6; /* Light Heading Color */
+    margin-top: 0;
+    border-bottom: 1px solid #4b5563;
+    padding-bottom: 10px;
+}
+
+/* Forms */
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #d1d5db;
+}
+
+input[type="text"], 
+input[type="date"], 
+input[type="time"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #4b5563;
+    background-color: #1f2937; /* Inputs match body background */
+    color: #f3f4f6;
+    border-radius: 4px;
+    box-sizing: border-box; 
+}
+
+/* Buttons */
+.btn {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s, transform 0.1s;
+}
+
+.btn:active {
+    transform: scale(0.98);
+}
+
+.btn.primary {
+    background-color: #3b82f6; /* Accent Blue */
+    color: white;
+}
+
+.btn.primary:hover {
+    background-color: #2563eb;
+}
+
+.btn.delete {
+    background-color: #ef4444; /* Accent Red */
+    color: white;
+    font-weight: normal;
+    padding: 8px 12px;
+}
+
+.btn.delete:hover {
+    background-color: #dc2626;
+}
+
+/* Event List */
+#events-list {
+    margin-top: 15px;
+    padding-top: 10px;
+}
+
+.event-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 10px;
+    border-left: 5px solid #10b981; /* Accent Green highlight strip */
+    margin-bottom: 10px;
+    background-color: #374151;
+    border-radius: 4px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.event-details strong {
+    font-size: 1.1em;
+    color: #f3f4f6;
+    display: block;
+}
+
+.datetime {
+    font-size: 0.85em;
+    color: #9ca3af;
+}
+
+.datetime i {
+    margin-right: 5px;
+    color: #10b981; /* Icons match the highlight strip */
+}
+
+/* Gifts and Ideas Page Styling */
+.gift-card {
+    grid-column: 1 / -1;
+    background-color: #374151;
+    border: 1px solid #4b5563;
+    padding: 20px;
+    border-radius: 6px;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.gift-card h3 {
+    color: #fcd34d; /* Warm Yellow for H3 */
+    border-bottom: 1px dashed #4b5563;
+    padding-bottom: 10px;
+    margin-top: 0;
+}
+
+.gift-card h3 i {
+    margin-right: 8px;
+    color: #fcd34d;
+}
+
+/* Message Styles */
+.info {
+    color: #60a5fa;
+    background-color: #1e3a8a;
+    border: 1px solid #3b82f6;
+    padding: 10px;
+    border-radius: 4px;
+}
+
+.error {
+    color: #fca5a5;
+    background-color: #7f1d1d;
+    border: 1px solid #ef4444;
+    padding: 10px;
+    border-radius: 4px;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    main {
+        grid-template-columns: 1fr;
+    }
+
+    nav a {
+        display: block;
+        margin-bottom: 5px;
+        text-align: center;
+    }
+}

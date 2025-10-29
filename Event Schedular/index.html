@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Event Scheduler | Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"> 
+    <link rel="stylesheet" href="styles.css"> </head>
+    <link rel="stylesheet" href="tyles.css"> </head>
+<body>
+    <header>
+        <h1>🗓️ Event Scheduler</h1>
+        <nav>
+            <a href="index.html" class="active">Events</a>
+            <a href="ideas.html">Gifts & Ideas</a>
+        </nav>
+    </header>
+
+    <main id="event-page">
+        <section class="card">
+            <h2>➕ Add New Event</h2>
+            <form id="add-event-form">
+                <div class="form-group">
+                    <label for="title">Title:</label>
+                    <input type="text" id="title" required placeholder="Birthday party, meeting, etc.">
+                </div>
+                <div class="form-group">
+                    <label for="date">Date:</label>
+                    <input type="date" id="date" required>
+                </div>
+                <div class="form-group">
+                    <label for="time">Time (Optional):</label>
+                    <input type="time" id="time">
+                </div>
+                <button type="submit" class="btn primary">Schedule Event</button>
+            </form>
+        </section>
+
+        <section class="card">
+            <h2>✔️ Scheduled Events</h2>
+            <div id="events-list">
+                </div>
+        </section>
+    </main>
+
+    <script>
+        const API_URL = 'http://localhost:3000/api/events';
+        const form = document.getElementById('add-event-form');
+        const eventsList = document.getElementById('events-list');
+
+        // --- FETCH AND RENDER EVENTS ---
+        async function fetchEvents() {
+            try {
+                const response = await fetch(API_URL);
+                const events = await response.json();
+                renderEvents(events);
+            } catch (error) {
+                console.error('Error fetching events:', error);
+                eventsList.innerHTML = '<p class="error">Could not load events. Is the Node.js server running?</p>';
+            }
+        }
+
+        function renderEvents(events) {
+            eventsList.innerHTML = ''; // Clear existing list
+            if (events.length === 0) {
+                eventsList.innerHTML = '<p class="info">No events scheduled yet. Add one above!</p>';
+                return;
+            }
+
+            // Simple sort by date for better UX
+            events.sort((a, b) => new Date(a.date) - new Date(b.date));
+
+            events.forEach(event => {
+                const item = document.createElement('div');
+                item.className = 'event-item';
+                
+                const details = document.createElement('div');
+                details.className = 'event-details';
+                details.innerHTML = `
+                    <strong>${event.title}</strong> 
+                    <span class="datetime">
+                        <i class="fas fa-calendar-alt"></i> ${event.date}
+                        ${event.time ? ` <i class="fas fa-clock"></i> ${event.time}` : ''}
+                    </span>
+                `;
+                item.appendChild(details);
+
+                // Delete Button
+                const deleteBtn = document.createElement('button');
+                deleteBtn.textContent = 'Delete';
+                deleteBtn.className = 'btn delete';
+                deleteBtn.onclick = () => deleteEvent(event.id);
+
+                item.appendChild(deleteBtn);
+                eventsList.appendChild(item);
+            });
+        }
+
+        // --- ADD EVENT (POST) ---
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const title = document.getElementById('title').value;
+            const date = document.getElementById('date').value;
+            const time = document.getElementById('time').value;
+
+            const newEvent = { title, date, time };
+
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(newEvent),
+                });
+                
+                if (response.ok) {
+                    form.reset(); 
+                    fetchEvents(); 
+                } else {
+                    const errorData = await response.json();
+                    alert('Error adding event: ' + (errorData.message || 'Server error'));
+                }
+            } catch (error) {
+                console.error('Error submitting event:', error);
+                alert('Network error while adding event. Is the server running?');
+            }
+        });
+
+        // --- DELETE EVENT (DELETE) ---
+        async function deleteEvent(id) {
+            if (!confirm('Are you sure you want to delete this event?')) return;
+
+            try {
+                const response = await fetch(`${API_URL}/${id}`, {
+                    method: 'DELETE',
+                });
+
+                if (response.status === 204) {
+                    fetchEvents(); 
+                } else if (response.status === 404) {
+                    alert('Event not found.');
+                    fetchEvents(); 
+                } else {
+                    alert('Error deleting event.');
+                }
+            } catch (error) {
+                console.error('Error deleting event:', error);
+                alert('Network error while deleting event.');
+            }
+        }
+
+        // Initial load of events
+        fetchEvents();
+    </script>
+</body>
+</html>
